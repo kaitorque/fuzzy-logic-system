@@ -20,3 +20,7 @@ def home(request):
 def list_report(request):
     page = { "title": "resources", "sub": "listreport" }
     return render(request, 'fuzzy_web/list_report.html', { "currentTime": now, "page": page })
+
+def client_form(request):
+    page = { "title": "resources", "sub": "client_form" }
+    return render(request, 'fuzzy_web/client_form.html', { "currentTime": now, "page": page })

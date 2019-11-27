@@ -11,7 +11,7 @@
       <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
         <ul class="m-menu__subnav">
           <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span class="m-menu__link"><span class="m-menu__item-here"></span><span class="m-menu__link-text">Resources</span></span></li>
-          <li class="m-menu__item " aria-haspopup="true"><a href="inner.html" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Client's Form</span></a></li>
+           <li class="m-menu__item {% if page.sub  == "client_form" %}m-menu__item--active{% endif %}"  aria-haspopup="true" m-menu-link-redirect="1"><a href="{% url "client_form" %}" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Client's Form</span></a></li>
           <li class="m-menu__item {% if page.sub  == "listreport" %}m-menu__item--active{% endif %}"  aria-haspopup="true" m-menu-link-redirect="1"><a href="{% url "list_report" %}" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">List of Report</span></a></li>
         </ul>
       </div>
