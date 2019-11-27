@@ -17,3 +17,9 @@ def index(request):
 
 def empty(request):
     return render(request, 'fuzzy_web/empty.html', { "currentTime": now })
+
+def home(request):
+    return render(request, 'fuzzy_web/home.html', { "currentTime": now })
+
+def list_report(request):
+    return render(request, 'fuzzy_web/list_report.html', { "currentTime": now })
