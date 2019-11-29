@@ -290,8 +290,115 @@
 {% block docready %}
 <script>
 
-<!-- Start:: Cognitive -->
+
 $(document).ready(function(){
+
+<!-- Start:: Cognitive -->
+<!-- Formula Cognitive -->
+var x1 = 20
+var x2 = 30
+var x3 = 32.5
+var x4 = 40
+var x5 = 28
+var m = 0
+var y = []
+var marks = []
+
+function lines(low,medium,high,input){
+    y = [0,0,0]
+    <!-- (1) -->
+    if(input <= low[1][0]){
+        y[0] = 1
+    }
+    <!-- (2) -->
+    else if(input <= medium[0][0]){
+        m = (low[1][1]-low[2][1])/(low[1][0]-low[2][0])
+        c = -(m * low[2][0])
+        y[0] =  m * input + c
+    }
+    <!-- (3) -->
+    else if(input <= low[2][0]){
+        m = (low[1][1]-low[2][1])/(low[1][0]-low[2][0])
+        c = -(m * low[2][0])
+        y[0] =  m * input + c
+        m2 = (medium[1][1]-medium[0][1])/(medium[1][0]-medium[0][0])
+        c2 = -(m2 * medium[0][0])
+        y[1] =  m2 * input + c2
+    }
+    <!-- (4) -->
+    else if(input <= medium[1][0]){
+        m = (medium[1][1]-medium[0][1])/(medium[1][0]-medium[0][0])
+        c = -(m * medium[0][0])
+        y[1] =  m * input + c
+    }
+    <!-- (5) -->
+    else if(input <= high[0][0]){
+        m = (medium[1][1]-medium[2][1])/(medium[1][0]-medium[2][0])
+        c = -(m * medium[2][0])
+        y[1] =  m * input + c
+    }
+    <!-- (6) -->
+    else if(input <= medium[2][0]){
+        m = (medium[1][1]-medium[2][1])/(medium[1][0]-medium[2][0])
+        c = -(m * medium[2][0])
+        y[1] =  m * input + c
+        m2 = (high[1][1]-high[0][1])/(high[1][0]-high[0][0])
+        c2 = -(m2 * high[0][0])
+        y[2] =  m2 * input + c2
+    }
+    <!-- (7) -->
+    else if(input <= high[2][0]){
+        y[2]=1
+    }
+    return y;
+}
+
+function marksO(low,medium,high,input){
+    var lines_Value = lines(low,medium,high,input)
+
+    <!-- (1) -->
+    if(input <= low[1][0]){
+        marksOutput = [{ xaxis: { from: 0, to: input }, yaxis: {from:1, to:1}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:1}, color: "#bb0000" }]
+    }
+    <!-- (2) -->
+    else if(input <= medium[0][0]){
+        marksOutput = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value[0], to:lines_Value[0]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value[0]}, color: "#bb0000" }]
+    }
+    <!-- (3) -->
+    else if(input <= low[2][0]){
+        marksOutput = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value[0], to:lines_Value[0]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value[0]}, color: "#bb0000" },
+                { xaxis: { from: 0, to: input }, yaxis: {from:lines_Value[1], to:lines_Value[1]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value[1]}, color: "#bb0000" },]
+    }
+    <!-- (4) -->
+    else if(input <= medium[1][0]){
+               marksOutput = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value[1], to:lines_Value[1]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value[1]}, color: "#bb0000" }]
+    }
+    <!-- (5) -->
+    else if(input <= high[0][0]){
+                marksOutput = [{ xaxis: { from: 0, to: x }, yaxis: {from:lines_Value[1], to:lines_Value[1]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value[1]}, color: "#bb0000" }]
+    }
+    <!-- (6) -->
+    else if(input <= medium[2][0]){
+                marksOutput = [{ xaxis: { from: 0, to: x }, yaxis: {from:lines_Value[1], to:lines_Value[1]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value[1]}, color: "#bb0000" },
+                { xaxis: { from: 0, to: input }, yaxis: {from:lines_Value[2], to:lines_Value[2]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value[2]}, color: "#bb0000" },]
+    }
+    <!-- (7) -->
+    else if(input <= high[2][0]){
+                           marksOutput = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value[2], to:lines_Value[2]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value[2]}, color: "#bb0000" }]
+    }
+    return marksOutput;
+}
+
+//document.write(m);
 var chart_cognitive = function() {
 
     var t = [[0,1],[12,1],[24,0]]
@@ -320,20 +427,21 @@ var chart_cognitive = function() {
                 lineWidth: 1
             },
             shadowSize: 0
-        }], {
+        },], {
             series: {
                 stack: false,
                 lines: {
                     show: true,
                     fill: true,
-                    lineWidth: 2
+                    lineWidth: 1
                 },
             },
             grid: {
                 hoverable: true,
                 tickColor: "#eee",
                 borderColor: "#eee",
-                borderWidth: 2
+                borderWidth: 2,
+                markings: marksO(t,o,a,x1)
             },
             legend: {
                 show: true
@@ -344,20 +452,18 @@ var chart_cognitive = function() {
                 tickColor: "#eee"
             },
             yaxis: {
-                max : 1.0,
+                max : 1,
                 tickColor: "#eee"
-            }
+            },
+
 
         })
     }
     s()
 }();
-});
 <!-- End:: Cognitive -->
-
 <!-- Start:: Social -->
-$(document).ready(function(){
-var chart_cognitive = function() {
+var chart_social = function() {
 
     var t = [[0,1],[16,1],[32,0]]
     var o = [[29,0],[36.5,1],[44,0]]
@@ -398,7 +504,8 @@ var chart_cognitive = function() {
                 hoverable: true,
                 tickColor: "#eee",
                 borderColor: "#eee",
-                borderWidth: 2
+                borderWidth: 2,
+                markings: marksO(t,o,a,x2)
             },
             legend: {
                 show: true
@@ -417,11 +524,9 @@ var chart_cognitive = function() {
     }
     s()
 }();
-});
 <!-- End:: Social -->
 <!-- Start:: Emotional -->
-$(document).ready(function(){
-var chart_cognitive = function() {
+var chart_emotional = function() {
 
     var t = [[0,1],[18.5,1],[37,0]]
     var o = [[34,0],[39,1],[44,0]]
@@ -462,7 +567,8 @@ var chart_cognitive = function() {
                 hoverable: true,
                 tickColor: "#eee",
                 borderColor: "#eee",
-                borderWidth: 2
+                borderWidth: 2,
+                markings: marksO(t,o,a,x3)
             },
             legend: {
                 show: true
@@ -481,11 +587,9 @@ var chart_cognitive = function() {
     }
     s()
 }();
-});
 <!-- End:: Emotional -->
 <!-- Start:: Spiritual -->
-$(document).ready(function(){
-var chart_cognitive = function() {
+var chart_spiritual = function() {
 
     var t = [[0,1],[13,1],[26,0]]
     var o = [[24,0],[31.5,1],[39,0]]
@@ -526,7 +630,8 @@ var chart_cognitive = function() {
                 hoverable: true,
                 tickColor: "#eee",
                 borderColor: "#eee",
-                borderWidth: 2
+                borderWidth: 2,
+                markings: marksO(t,o,a,x4)
             },
             legend: {
                 show: true
@@ -545,11 +650,9 @@ var chart_cognitive = function() {
     }
     s()
 }();
-});
 <!-- End:: Spiritual -->
 <!-- Start:: Physical -->
-$(document).ready(function(){
-var chart_cognitive = function() {
+var chart_physical = function() {
 
     var t = [[0,1],[12.5,1],[25,0]]
     var o = [[22,0],[29.5,1],[37,0]]
@@ -590,7 +693,8 @@ var chart_cognitive = function() {
                 hoverable: true,
                 tickColor: "#eee",
                 borderColor: "#eee",
-                borderWidth: 2
+                borderWidth: 2,
+                markings: marksO(t,o,a,x5)
             },
             legend: {
                 show: true
@@ -609,11 +713,9 @@ var chart_cognitive = function() {
     }
     s()
 }();
-});
 <!-- End:: Physical -->
 <!-- Start:: Approach -->
-$(document).ready(function(){
-var chart_cognitive = function() {
+var chart_approach = function() {
 
     var t = [[0,1],[3,1],[5,0]]
     var o = [[3,0],[6,1],[8,0]]
@@ -654,7 +756,8 @@ var chart_cognitive = function() {
                 hoverable: true,
                 tickColor: "#eee",
                 borderColor: "#eee",
-                borderWidth: 2
+                borderWidth: 2,
+                markings: marksO(t,o,a,x5)
             },
             legend: {
                 show: true
@@ -673,7 +776,7 @@ var chart_cognitive = function() {
     }
     s()
 }();
-});
 <!-- End:: Approach -->
+});
 </script>
 {% endblock %}
