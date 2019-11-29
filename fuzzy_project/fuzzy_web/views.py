@@ -24,3 +24,7 @@ def list_report(request):
 def client_form(request):
     page = { "title": "resources", "sub": "client_form" }
     return render(request, 'fuzzy_web/client_form.html', { "currentTime": now, "page": page })
+
+def view_report(request):
+    page = { "title": "resources", "sub": "client_form" }
+    return render(request, 'fuzzy_web/view_report.html', { "currentTime": now, "page": page })
