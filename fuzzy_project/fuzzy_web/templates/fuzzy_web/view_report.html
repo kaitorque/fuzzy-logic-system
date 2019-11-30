@@ -295,11 +295,11 @@ $(document).ready(function(){
 
 <!-- Start:: Cognitive -->
 <!-- Formula Cognitive -->
-var x1 = 20
+var x1 = 22
 var x2 = 30
 var x3 = 32.5
 var x4 = 40
-var x5 = 28
+var x5 = 240
 var m = 0
 var y = []
 var marks = []
@@ -343,6 +343,7 @@ function lines(low,medium,high,input){
         m = (medium[1][1]-medium[2][1])/(medium[1][0]-medium[2][0])
         c = -(m * medium[2][0])
         y[1] =  m * input + c
+
         m2 = (high[1][1]-high[0][1])/(high[1][0]-high[0][0])
         c2 = -(m2 * high[0][0])
         y[2] =  m2 * input + c2
@@ -399,12 +400,188 @@ function marksO(low,medium,high,input){
     return marksOutput;
 }
 <!-- End of Inputs have 5 -->
-<!-- Function for Inputs have 5 -->
-function line2(vhigh,high,medium,low,vlow,y){
+<!-- Function for Outputs -->
+function line2(vhigh,high,medium,low,vlow,input){
+    y=[0,0,0,0,0]
+    <!-- (1) -->
+    if(input <= vhigh[1][0]){
+        y[0] = 1
+    }
+
+     <!-- (2) -->
+    else if(input <= high[0][0]){
+        m = (vhigh[1][1]-vhigh[2][1])/(vhigh[1][0]-vhigh[2][0])
+        c = -(m * vhigh[2][0])
+        y[0] =  m * input + c
+    }
+
+    <!-- (3) -->
+    else if(input <= vhigh[2][0])
+    {
+        m = (vhigh[1][1]-vhigh[2][1])/(vhigh[1][0]-vhigh[2][0])
+        c = -(m * vhigh[2][0])
+        y[0] =  m * input + c
+
+        m2 = (high[1][1]-high[0][1])/(high[1][0]-high[0][0])
+        c2 = -(m2 * high[0][0])
+        y[1] =  m2 * input + c2
+    }
+    <!-- (4) -->
+    else if(input <= high[1][0])
+    {
+        m = (high[1][1]-high[0][1])/(high[1][0]-high[0][0])
+        c = -(m * high[0][0])
+        y[1] =  m * input + c
+    }
+    <!-- (5) -->
+    else if(input <= medium[0][0]){
+        m = (high[1][1]-high[2][1])/(high[1][0]-high[2][0])
+        c = -(m * high[2][0])
+        y[1] =  m * input + c
+    }
+    <!-- (6) -->
+    else if(input <= high[2][0])
+    {
+        m = (high[2][1]-high[1][1])/(high[2][0]-high[1][0])
+        c = -(m * high[2][0])
+        y[1] =  m * input + c
+
+        m2 = (medium[1][1]-medium[0][1])/(medium[1][0]-medium[0][0])
+        c2 = -(m2 * medium[0][0])
+        y[2] =  m2 * input + c2
+    }
+    <!-- (7) -->
+    else if(input <= low[0][0])
+    {
+        m = (medium[1][1]-medium[2][1])/(medium[1][0]-medium[2][0])
+        c = -(m * medium[2][0])
+        y[2] =  m * input + c
+
+    }
+    <!-- (8) -->
+    else if(input <= medium[2][0]){
+        m = (medium[1][1]-medium[2][1])/(medium[1][0]-medium[2][0])
+        c = -(m * medium[2][0])
+        y[2] =  m * input + c
+
+        m2 = (low[1][1]-low[0][1])/(low[1][0]-low[0][0])
+        c2 = -(m2 * low[0][0])
+        y[3] =  m2 * input + c2
+    }
+    <!-- (9) -->
+    else if(input <= low[1][0])
+    {
+        m2 = (low[1][1]-low[0][1])/(low[1][0]-low[0][0])
+        c2 = -(m2 * low[0][0])
+        y[3] =  m2 * input + c2
+    }
+
+    <!-- (10) -->
+    else if(input <= low[2][0])
+    {
+        m = (low[1][1]-low[2][1])/(low[1][0]-low[2][0])
+        c = -(m * low[2][0])
+        y[3] =  m * input + c
+
+        m2 = (vlow[1][1]-vlow[0][1])/(vlow[1][0]-vlow[0][0])
+        c2 = -(m2 * vlow[0][0])
+        y[4] =  m2 * input + c2
+    }
+    <!-- (11) -->
+    else if(input <= vlow[1][0]){
+        m2 = (vlow[1][1]-vlow[0][1])/(vlow[1][0]-vlow[0][0])
+        c2 = -(m2 * vlow[0][0])
+        y[4] =  m2 * input + c2
+    }
+    <!-- (12) -->
+    else if(input <= vlow[2][0])
+    {
+       y[4] = 1
+    }
+    return y;
+
 
 }
 
-function marksO2(vhigh,high,medium,low,vlow,y){
+
+function marksO2(vhigh,high,medium,low,vlow,input){
+    var lines_Value2 = line2(vhigh,high,medium,low,vlow,input)
+    <!-- (1) -->
+    if(input <= vhigh[1][0]){
+        marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:1, to:1}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:1}, color: "#bb0000" }]
+    }
+    <!-- (2) -->
+    else if(input <= high[0][0]){
+        marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[0], to:lines_Value2[0]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[0]}, color: "#bb0000" }]
+    }
+    <!-- (3) -->
+    else if(input <= high[2][0]){
+        marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[0], to:lines_Value2[0]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[0]}, color: "#bb0000" },
+                { xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[1], to:lines_Value2[1]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[1]}, color: "#bb0000" },]
+    }
+    <!-- (4) -->
+    else if(input <= high[1][0])
+    {
+                marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[1], to:lines_Value2[1]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[1]}, color: "#bb0000" },]
+    }
+    <!-- (5) -->
+    else if(input <= medium[0][0]){
+                 marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[1], to:lines_Value2[1]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[1]}, color: "#bb0000" },]
+    }
+    <!-- (6) -->
+    else if(input <= high[2][0])
+    {
+                marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[1], to:lines_Value2[1]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[1]}, color: "#bb0000" },
+                { xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[2], to:lines_Value2[2]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[2]}, color: "#bb0000" },]
+    }
+    <!-- (7) -->
+    else if(input <= low[0][0])
+    {
+                         marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[2], to:lines_Value2[2]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[2]}, color: "#bb0000" },]
+
+    }
+    <!-- (8) -->
+    else if(input <= medium[2][0]){
+                marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[3], to:lines_Value2[3]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[3]}, color: "#bb0000" },
+                { xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[2], to:lines_Value2[2]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[2]}, color: "#bb0000" },]
+    }
+     <!-- (9) -->
+    else if(input <= low[1][0])
+    {
+                marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[3], to:lines_Value2[3]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[3]}, color: "#bb0000" },]
+    }
+    <!-- (10) -->
+    else if(input <= low[2][0])
+    {
+                        marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[3], to:lines_Value2[3]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[3]}, color: "#bb0000" },
+                { xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[4], to:lines_Value2[4]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[4]}, color: "#bb0000" },]
+    }
+    <!-- (11) -->
+    else if(input <= vlow[1][0]){
+                        marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[4], to:lines_Value2[4]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[4]}, color: "#bb0000" },]
+    }
+    <!-- (12) -->
+    else if(input <= vlow[2][0])
+    {
+                       marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[4], to:lines_Value2[4]}, color: "#bb0000" },
+                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[4]}, color: "#bb0000" },]
+    }
+    return marksOutput2;
 
 }
 <!-- End for Outputs -->
@@ -783,7 +960,7 @@ var chart_approach = function() {
                 tickColor: "#eee",
                 borderColor: "#eee",
                 borderWidth: 2,
-                markings: marksO(t,o,a,x5)
+                markings: marksO2(t,o,a,b,c,x5)
             },
             legend: {
                 show: true
