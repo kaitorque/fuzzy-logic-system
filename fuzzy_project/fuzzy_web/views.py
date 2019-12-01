@@ -4,6 +4,7 @@ from django.utils import timezone
 from fuzzy_project.helpers import *
 from collections import namedtuple
 from django.db import connection
+from urllib.parse import parse_qs
 
 now = timezone.now()
 cursor = connection.cursor()
@@ -23,7 +24,30 @@ def home(request):
 
 def list_report(request):
     page = { "title": "resources", "sub": "listreport" }
-    return render(request, 'fuzzy_web/list_report.html', { "currentTime": now, "page": page })
+    if request.method == 'GET':
+        if 'step' in request.GET and request.GET['step'] == "clienttable":
+            cursor.execute("SELECT * FROM client")
+            datax = dictfetchall(cursor)
+            datay = list(map(cLink , datax))
+            return JsonResponse({"data": datay, "csrftoken": request.COOKIES['csrftoken'] })
+        else:
+            return render(request, 'fuzzy_web/list_report.html', { "currentTime": now, "page": page })
+    elif request.method == 'POST':
+        #Declare array of errorMsg
+        errorMsg = []
+        if request.POST['step'] == "delete":
+            delid = parse_qs(decrypt(request.POST['delid']))
+            cursor.execute("DELETE FROM client WHERE id = %s", delid["id"])
+            if cursor.rowcount > 0:
+                response = "Client record successfully deleted!"
+            else:
+                response = "No change detected. No record updated!"
+            return JsonResponse({"success": True, "response": response})
+        else:
+            errorMsg.append("Request Error")
+        return JsonResponse({"success": False, "response": errorMsg})
+
+
 
 def client_form(request):
     page = { "title": "resources", "sub": "clientform" }
@@ -32,48 +56,48 @@ def client_form(request):
     elif request.method == 'POST':
         #Declare array of errorMsg
         errorMsg = []
-        #Custom Validation
-        Input = namedtuple('Input',['name','value'])
-        fullname = request.POST['fullname']
-        age = request.POST['age']
-        gender = request.POST['gender']
-        cognitive = request.POST['cognitive']
-        social = request.POST['social']
-        emotional = request.POST['emotional']
-        spiritual = request.POST['spiritual']
-        physical = request.POST['physical']
-        inputlist = [
-            Input("Fullname", fullname),
-            Input("Age", age),
-            Input("Gender", gender),
-            Input("Cognitive", cognitive),
-            Input("Social", social),
-            Input("Emotional", emotional),
-            Input("Spiritual", spiritual),
-            Input("Physical", physical)
-        ]
-        errorMsg.extend(checkEmpty(inputlist))
-        inputlist = [
-            Input("Age", age),
-            Input("Cognitive", cognitive),
-            Input("Social", social),
-            Input("Emotional", emotional),
-            Input("Spiritual", spiritual),
-            Input("Physical", physical)
-        ]
-        errorMsg.extend(checkDigit(inputlist))
-        if int(request.POST['age']) < 0:
-            errorMsg.append("Age cannot less than 0")
-
-        if not errorMsg:
-            cursor.execute("INSERT INTO client "
-            "(fullname, age, gender, cognitive, social, emotional, spiritual, physical)"
-            " VALUES "
-            "(%s, %s, %s, %s, %s, %s, %s, %s)", [fullname, int(age), gender, int(cognitive), int(social), int(emotional), int(spiritual), int(physical)])
-            return JsonResponse({"success": True, "response": "Client successfully added!"})
-
-
-
+        if request.POST['step'] == "add":
+            #Custom Validation
+            Input = namedtuple('Input',['name','value'])
+            fullname = request.POST['fullname']
+            age = request.POST['age']
+            gender = request.POST['gender']
+            cognitive = request.POST['cognitive']
+            social = request.POST['social']
+            emotional = request.POST['emotional']
+            spiritual = request.POST['spiritual']
+            physical = request.POST['physical']
+            inputlist = [
+                Input("Fullname", fullname),
+                Input("Age", age),
+                Input("Gender", gender),
+                Input("Cognitive", cognitive),
+                Input("Social", social),
+                Input("Emotional", emotional),
+                Input("Spiritual", spiritual),
+                Input("Physical", physical)
+            ]
+            errorMsg.extend(checkEmpty(inputlist))
+            inputlist = [
+                Input("Age", age),
+                Input("Cognitive", cognitive),
+                Input("Social", social),
+                Input("Emotional", emotional),
+                Input("Spiritual", spiritual),
+                Input("Physical", physical)
+            ]
+            errorMsg.extend(checkDigit(inputlist))
+            if int(request.POST['age']) < 0:
+                errorMsg.append("Age cannot less than 0")
+            #if no error
+            if not errorMsg:
+                cursor.execute("INSERT INTO client "
+                "(fullname, age, gender, cognitive, social, emotional, spiritual, physical)"
+                " VALUES "
+                "(%s, %s, %s, %s, %s, %s, %s, %s)", [fullname, int(age), gender, int(cognitive), int(social), int(emotional), int(spiritual), int(physical)])
+                return JsonResponse({"success": True, "response": "Client successfully added!"})
+        else:
+            errorMsg.append("Request Error")
         return JsonResponse({"success": False, "response": errorMsg})
 
 def view_report(request):

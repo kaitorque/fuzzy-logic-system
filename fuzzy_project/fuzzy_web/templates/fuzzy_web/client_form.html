@@ -34,6 +34,7 @@
     			</div>
     			<!--begin::Form-->
     			<form class="m-form m-form--fit m-form--label-align-right" id="submitForm">
+            <input type="hidden" name="step" value="add">
             {% csrf_token %}
     				<div class="m-portlet__body">
     					<div class="form-group m-form__group">
@@ -103,11 +104,9 @@
 <script>
 	$(document).ready(function(){
 		//Set header to csrf token
-		$.ajaxSetup({
-			headers: {
-					'X-CSRF-TOKEN': $('input[name="csrfmiddlewaretoken"]').val()
-					}
-		});
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').val() }
+    });
 		//Custom Validator
 		jQuery.validator.addMethod("nospace", function(value, element) {
       return value.indexOf(" ") < 0 && value != "";
