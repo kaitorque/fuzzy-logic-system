@@ -2,56 +2,110 @@ import numpy as np
 import skfuzzy as fuzzy
 import matplotlib.pyplot as plt
 
-#Initialize Range
-cognitive = np.arange(0,37,1)
-cog_level = {}
-cog_level["low"] = fuzzy.trapmf(cognitive,[0,0,12,24])
-cog_level["med"] = fuzzy.trimf(cognitive,[20,26,33])
-cog_level["high"] = fuzzy.trapmf(cognitive,[32,34,36,36])
-# c_Low = fuzzy.trapmf(cognitive,[0,0,12,24])
-# c_Med = fuzzy.trimf(cognitive,[20,26,33])
-# c_High = fuzzy.trapmf(cognitive,[32,34,36,36])
+gender = "Male"
 
-social = np.arange(0,53,1)
-soc_level = {}
-soc_level["low"] = fuzzy.trapmf(social,[0,0,16,32])
-soc_level["med"] = fuzzy.trimf(social,[29,36,44])
-soc_level["high"] = fuzzy.trapmf(social,[41,46,52,52])
-# s_Low = fuzzy.trapmf(social,[0,0,16,32])
-# s_Med = fuzzy.trimf(social,[29,36,44])
-# s_High = fuzzy.trapmf(social,[41,46,52,52])
+if gender is "Male":
+    #Initialize Range
+    cognitive = np.arange(0,37,1)
+    cog_level = {}
+    cog_level["low"] = fuzzy.trapmf(cognitive,[0,0,12,24])
+    cog_level["med"] = fuzzy.trimf(cognitive,[20,26,33])
+    cog_level["high"] = fuzzy.trapmf(cognitive,[32,34,36,36])
+    # c_Low = fuzzy.trapmf(cognitive,[0,0,12,24])
+    # c_Med = fuzzy.trimf(cognitive,[20,26,33])
+    # c_High = fuzzy.trapmf(cognitive,[32,34,36,36])
 
-emotional = np.arange(0,53,1)
-emo_level = {}
-emo_level["low"] = fuzzy.trapmf(emotional,[0,0,18,37])
-emo_level["med"] = fuzzy.trimf(emotional,[34,39,44])
-emo_level["high"] = fuzzy.trapmf(emotional,[41,46,52,52])
-# e_Low = fuzzy.trapmf(emotional,[0,0,18,37])
-# e_Med = fuzzy.trimf(emotional,[34,39,44])
-# e_High = fuzzy.trapmf(emotional,[41,46,52,52])
+    social = np.arange(0,53,1)
+    soc_level = {}
+    soc_level["low"] = fuzzy.trapmf(social,[0,0,16,32])
+    soc_level["med"] = fuzzy.trimf(social,[29,36,44])
+    soc_level["high"] = fuzzy.trapmf(social,[41,46,52,52])
+    # s_Low = fuzzy.trapmf(social,[0,0,16,32])
+    # s_Med = fuzzy.trimf(social,[29,36,44])
+    # s_High = fuzzy.trapmf(social,[41,46,52,52])
 
-spiritual = np.arange(0,45,1)
-spi_level = {}
-spi_level["low"] = fuzzy.trapmf(spiritual,[0,0,13,26])
-spi_level["med"] = fuzzy.trimf(spiritual,[24,31,39])
-spi_level["high"] = fuzzy.trapmf(spiritual,[37,40,44,44])
-# sp_Low = fuzzy.trapmf(spiritual,[0,0,13,26])
-# sp_Med = fuzzy.trimf(spiritual,[24,31,39])
-# sp_High = fuzzy.trapmf(spiritual,[37,40,44,44])
+    emotional = np.arange(0,65,1)
+    emo_level = {}
+    emo_level["low"] = fuzzy.trapmf(emotional,[0,0,18,37])
+    emo_level["med"] = fuzzy.trimf(emotional,[30,39,44])
+    emo_level["high"] = fuzzy.trapmf(emotional,[40,52,64,64])
+    # e_Low = fuzzy.trapmf(emotional,[0,0,18,37])
+    # e_Med = fuzzy.trimf(emotional,[34,39,44])
+    # e_High = fuzzy.trapmf(emotional,[41,46,52,52])
 
-physical = np.arange(0,46,1)
-phy_level = {}
-phy_level["low"] = fuzzy.trapmf(physical,[0,0,12,25])
-phy_level["med"] = fuzzy.trimf(physical,[22,29,37])
-phy_level["high"] = fuzzy.trapmf(physical,[35,40,45,45])
+    spiritual = np.arange(0,45,1)
+    spi_level = {}
+    spi_level["low"] = fuzzy.trapmf(spiritual,[0,0,13,26])
+    spi_level["med"] = fuzzy.trimf(spiritual,[24,31,39])
+    spi_level["high"] = fuzzy.trapmf(spiritual,[37,40,44,44])
+    # sp_Low = fuzzy.trapmf(spiritual,[0,0,13,26])
+    # sp_Med = fuzzy.trimf(spiritual,[24,31,39])
+    # sp_High = fuzzy.trapmf(spiritual,[37,40,44,44])
 
-output = np.arange(0,251,1)
-out_level = {}
-out_level["vhigh"] = fuzzy.trapmf(output,[0,0,85,110])
-out_level["high"] = fuzzy.trimf(output,[90,120,155])
-out_level["med"] = fuzzy.trimf(output,[140,155,175])
-out_level["low"] = fuzzy.trimf(output,[160,180,200])
-out_level["vlow"] = fuzzy.trapmf(output,[180,220,250,250])
+    physical = np.arange(0,45,1)
+    phy_level = {}
+    phy_level["low"] = fuzzy.trapmf(physical,[0,0,12,25])
+    phy_level["med"] = fuzzy.trimf(physical,[22,29,37])
+    phy_level["high"] = fuzzy.trapmf(physical,[35,40,44,44])
+
+    output = np.arange(0,251,1)
+    out_level = {}
+    out_level["vhigh"] = fuzzy.trapmf(output,[0,0,85,105])
+    out_level["high"] = fuzzy.trimf(output,[90,120,155])
+    out_level["med"] = fuzzy.trimf(output,[140,155,175])
+    out_level["low"] = fuzzy.trimf(output,[160,180,205])
+    out_level["vlow"] = fuzzy.trapmf(output,[180,220,227,227])
+else:
+    # Initialize Range
+    cognitive = np.arange(0, 37, 1)
+    cog_level = {}
+    cog_level["low"] = fuzzy.trapmf(cognitive, [0, 0, 13, 23])
+    cog_level["med"] = fuzzy.trimf(cognitive, [19, 26, 33])
+    cog_level["high"] = fuzzy.trapmf(cognitive, [32, 34, 36, 36])
+    # c_Low = fuzzy.trapmf(cognitive,[0,0,12,24])
+    # c_Med = fuzzy.trimf(cognitive,[20,26,33])
+    # c_High = fuzzy.trapmf(cognitive,[32,34,36,36])
+
+    social = np.arange(0, 53, 1)
+    soc_level = {}
+    soc_level["low"] = fuzzy.trapmf(social, [0, 0, 16, 35])
+    soc_level["med"] = fuzzy.trimf(social, [29, 36, 45])
+    soc_level["high"] = fuzzy.trapmf(social, [41, 46, 52, 52])
+    # s_Low = fuzzy.trapmf(social,[0,0,16,32])
+    # s_Med = fuzzy.trimf(social,[29,36,44])
+    # s_High = fuzzy.trapmf(social,[41,46,52,52])
+
+    emotional = np.arange(0, 53, 1)
+    emo_level = {}
+    emo_level["low"] = fuzzy.trapmf(emotional, [0, 0, 18, 37])
+    emo_level["med"] = fuzzy.trimf(emotional, [34, 39, 44])
+    emo_level["high"] = fuzzy.trapmf(emotional, [41, 46, 52, 52])
+    # e_Low = fuzzy.trapmf(emotional,[0,0,18,37])
+    # e_Med = fuzzy.trimf(emotional,[34,39,44])
+    # e_High = fuzzy.trapmf(emotional,[41,46,52,52])
+
+    spiritual = np.arange(0, 45, 1)
+    spi_level = {}
+    spi_level["low"] = fuzzy.trapmf(spiritual, [0, 0, 13, 26])
+    spi_level["med"] = fuzzy.trimf(spiritual, [24, 31, 39])
+    spi_level["high"] = fuzzy.trapmf(spiritual, [37, 40, 44, 44])
+    # sp_Low = fuzzy.trapmf(spiritual,[0,0,13,26])
+    # sp_Med = fuzzy.trimf(spiritual,[24,31,39])
+    # sp_High = fuzzy.trapmf(spiritual,[37,40,44,44])
+
+    physical = np.arange(0, 45, 1)
+    phy_level = {}
+    phy_level["low"] = fuzzy.trapmf(physical, [0, 0, 12, 25])
+    phy_level["med"] = fuzzy.trimf(physical, [22, 29, 37])
+    phy_level["high"] = fuzzy.trapmf(physical, [35, 40, 44, 44])
+
+    output = np.arange(0, 229, 1)
+    out_level = {}
+    out_level["vhigh"] = fuzzy.trapmf(output, [0, 0, 85, 110])
+    out_level["high"] = fuzzy.trimf(output, [90, 120, 155])
+    out_level["med"] = fuzzy.trimf(output, [140, 155, 175])
+    out_level["low"] = fuzzy.trimf(output, [160, 180, 200])
+    out_level["vlow"] = fuzzy.trapmf(output, [180, 220, 228, 228])
 
 fig, (aCog, aSoc, aEmo, aSpi, aPhy) = plt.subplots(nrows=5, figsize=(8, 9))
 
