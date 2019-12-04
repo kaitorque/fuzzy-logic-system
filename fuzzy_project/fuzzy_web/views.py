@@ -13,7 +13,6 @@ cursor = connection.cursor()
 # now = datetime.datetime.now()
 
 # Create your views here.
-
 def empty(request):
     page = { "title": "empty", "sub": "" }
     return render(request, 'fuzzy_web/empty.html', { "currentTime": now, "page": page })
@@ -29,7 +28,7 @@ def list_report(request):
             cursor.execute("SELECT * FROM client")
             datax = dictfetchall(cursor)
             datay = list(map(cLink , datax))
-            return JsonResponse({"data": datay, "csrftoken": request.COOKIES['csrftoken'] })
+            return JsonResponse({"data": datay })
         else:
             return render(request, 'fuzzy_web/list_report.html', { "currentTime": now, "page": page })
     elif request.method == 'POST':
@@ -102,4 +101,12 @@ def client_form(request):
 
 def view_report(request):
     page = { "title": "resources", "sub": "client_form" }
-    return render(request, 'fuzzy_web/view_report.html', { "currentTime": now, "page": page })
+    if request.method == 'GET':
+        delid = parse_qs(decrypt(request.GET['q']))
+        cursor.execute("SELECT * FROM client WHERE id = %s", delid["id"])
+        datax = dictfetchone(cursor)
+        return render(request, 'fuzzy_web/view_report.html', { "currentTime": now, "page": page, "data": datax })
+    else:
+        errorMsg = []
+        errorMsg.append("Request Error")
+        return JsonResponse({"success": False, "response": errorMsg})
