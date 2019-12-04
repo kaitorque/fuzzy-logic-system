@@ -59,6 +59,12 @@ def fuzzy_calc(data):
     	out_level["med"] = fuzzy.trimf(output,[140,155,175])
     	out_level["low"] = fuzzy.trimf(output,[160,180,205])
     	out_level["vlow"] = fuzzy.trapmf(output,[180,220,227,227])
+
+        cat_vhigh = [[0,0],[85,1],[105,0]]
+        cat_high = [[90,0],[120,1],[155,0]]
+        cat_med = [[140,0],[155,1],[175,0]]
+        cat_low =  [[160,0],[180,1],[205,0]]
+        cat_vlow = [[180,0],[220,1],[227,0]]
     else:
         # Initialize Range
         cognitive = np.arange(0, 37, 1)
@@ -110,6 +116,13 @@ def fuzzy_calc(data):
         out_level["med"] = fuzzy.trimf(output, [140, 155, 175])
         out_level["low"] = fuzzy.trimf(output, [160, 180, 200])
         out_level["vlow"] = fuzzy.trapmf(output, [180, 220, 228, 228])
+
+        cat_vhigh = [[0, 0], [85, 1], [110, 0]]
+        cat_high = [[90, 0], [120, 1], [155, 0]]
+        cat_med = [[140, 0], [155, 1], [175, 0]]
+        cat_low = [[160, 0], [180, 1], [200, 0]]
+        cat_vlow = [[180, 0], [220, 1], [228, 0]]
+
 
     # fig, (aCog, aSoc, aEmo, aSpi, aPhy) = plt.subplots(nrows=5, figsize=(8, 9))
     #
@@ -512,3 +525,104 @@ def fuzzy_calc(data):
     # print(aggregated)
     # print(clean_activation)
     # print(clean_aggregated)
+
+    cog = clean_aggregated
+    y = [0, 0, 0, 0, 0]
+
+    #COG CATEGORY
+    # <!-- (1) -->
+    if (input <= vhigh[1][0]):
+        y[0] = 1
+    # < !-- (2) -->
+    elif (input <= high[0][0]):
+        m = (vhigh[1][1]-vhigh[2][1]) / (vhigh[1][0]-vhigh[2][0])
+        c = -(m * vhigh[2][0])
+        y[0] =  m * input + c
+    # < !-- (3) -->
+    elif (input <= vhigh[2][0]) :
+        m = (vhigh[1][1] - vhigh[2][1]) / (vhigh[1][0] - vhigh[2][0])
+        c = -(m * vhigh[2][0])
+        y[0] = m * input + c
+
+        m2 = (high[1][1] - high[0][1]) / (high[1][0] - high[0][0])
+        c2 = -(m2 * high[0][0])
+        y[1] = m2 * input + c2
+        # < !-- (4) -->
+    elif (input <= high[1][0]):
+        m = (high[1][1] - high[0][1]) / (high[1][0] - high[0][0])
+        c = -(m * high[0][0])
+        y[1] = m * input + c
+        # < !-- (5) -->
+    elif (input <= medium[0][0]):
+        m = (high[1][1]-high[2][1]) / (high[1][0]-high[2][0])
+        c = -(m * high[2][0])
+        y[1] =  m * input + c
+    # < !-- (6) -->
+    elif (input <= high[2][0]):
+        m = (high[2][1] - high[1][1]) / (high[2][0] - high[1][0])
+        high[2][0])
+        y[1] = m * input + c
+
+        m2 = (medium[1][1] - medium[0][1]) / (medium[1][0] - medium[0][0])
+        c2 = -(m2 * medium[0][0])
+        y[2] = m2 * input + c2
+        # < !-- (7) -->
+    else bug (input <= medium[1][0]):
+
+                m2 = (medium[1][1] - medium[0][1]) / (medium[1][0] - medium[0][0])
+                c2 = -(m2 * medium[0][0])
+                y[2] = m2 * input + c2
+            
+                    < !-- (8) -->
+                    else if (input <= low[0][0]
+                            {
+                            m2 = (medium[1][1]-medium[2][1]) / (medium[1][0] - medium[2][0])
+                    c2 = -(m2 * medium[2][0])
+                    y[2] =  m2 * input + c2
+                    }
+                    < !-- (9) --->
+                    else if (input <= medium[2][0]){
+                    m = (medium[1][1]-medium[2][1]) / (medium[1][0]-medium[2][0])
+                    c = -(m * medium[2][0])
+                    y[2] =  m * input + c
+
+                    m2 = (low[1][1]-low[0][1]) / (low[1][0]-low[0][0])
+                    c2 = -(m2 * low[0][0])
+                    y[3] =  m2 * input + c2
+                    }
+                    < !-- (9) -->
+                    else if (input <= low[1][0])
+                    {
+                    m2 = (low[1][1]-low[0][1]) / (low[1][0]-low[0][0])
+                    c2 = -(m2 * low[0][0])
+                    y[3] =  m2 * input + c2
+                    }
+                    < !-- (10) -->
+                    else if (input <= vlow[0][0])
+                    {
+                    m2 = (low[1][1]-low[0][1]) / (low[1][0]-low[0][0])
+                    c2 = -(m2 * low[0][0])
+                    y[3] =  m2 * input + c2
+                    }
+                    < !-- (11) -->
+                    else if (input <= low[2][0]){
+                    m = (low[1][1]-low[2][1]) / (low[1][0]-low[2][0])
+                    c = -(m * medium[2][0])
+                    y[2] =  m * input + c
+
+                    m2 = (vlow[1][1]-vlow[0][1]) / (vlow[1][0]-vlow[0][0])
+                    c2 = -(m2 * vlow[0][0])
+                    y[4] =  m2 * input + c2
+                    }
+                    < !-- (12) -->
+                    else if (input <= vlow[1][0])
+                    {
+                    m2 = (vlow[1][1]-vlow[0][1]) / (vlow[1][0]-vlow[0][0])
+                    c2 = -(m2 * vlow[0][0])
+                    y[4] =  m2 * input + c2
+                    }
+                    else {
+                    y[4] = 1
+                    }
+
+
