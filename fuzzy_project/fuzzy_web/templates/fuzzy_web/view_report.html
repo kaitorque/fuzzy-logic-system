@@ -6,6 +6,16 @@
 {% endblock %}
 
 {% block docstyle %}
+<style>
+.mamdani_output{
+  height: 700px;
+  padding: 0px;
+  position: relative;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+</style>
 {% endblock %}
 
 <!-- Page Title -->
@@ -13,7 +23,7 @@
 
 <!-- Body Content -->
 {% block content %}
-
+{% load static %}
 <!-- Start Body -->
 
 <!-- Start :: Cognitive -->
@@ -329,12 +339,12 @@
 <div class="m-portlet  m-portlet--unair">
     <div class="m-portlet__body  m-portlet__body--no-padding">
         <div class="row m-row--no-padding m-row--col-separator-xl">
-            <div class="col-md-12 col-lg-6 col-xl-6">
+            <div class="col-md-12 col-lg-8 col-xl-8">
                 <div class="m-portlet__body">
-                    <div id="chart_approach" style="height: 300px;"></div>
+                  <div class="mamdani_output" style="background-image: url('{% static link %}')"></div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-6 col-xl-6">
+            <div class="col-md-12 col-lg-4 col-xl-4">
                 <!--begin::New Feedbacks-->
                 <div class="m-widget24">
                     <div class="m-widget24__item">
@@ -496,191 +506,7 @@ function marksO(low,medium,high,input){
     return marksOutput;
 }
 <!-- End of Inputs have 5 -->
-<!-- Function for Outputs -->
-function line2(vhigh,high,medium,low,vlow,input){
-    y=[0,0,0,0,0]
-    <!-- (1) -->
-    if(input <= vhigh[1][0]){
-        y[0] = 1
-    }
 
-     <!-- (2) -->
-    else if(input <= high[0][0]){
-        m = (vhigh[1][1]-vhigh[2][1])/(vhigh[1][0]-vhigh[2][0])
-        c = -(m * vhigh[2][0])
-        y[0] =  m * input + c
-    }
-
-    <!-- (3) -->
-    else if(input <= vhigh[2][0])
-    {
-        m = (vhigh[1][1]-vhigh[2][1])/(vhigh[1][0]-vhigh[2][0])
-        c = -(m * vhigh[2][0])
-        y[0] =  m * input + c
-
-        m2 = (high[1][1]-high[0][1])/(high[1][0]-high[0][0])
-        c2 = -(m2 * high[0][0])
-        y[1] =  m2 * input + c2
-    }
-    <!-- (4) -->
-    else if(input <= high[1][0])
-    {
-        m = (high[1][1]-high[0][1])/(high[1][0]-high[0][0])
-        c = -(m * high[0][0])
-        y[1] =  m * input + c
-    }
-    <!-- (5) -->
-    else if(input <= medium[0][0]){
-        m = (high[1][1]-high[2][1])/(high[1][0]-high[2][0])
-        c = -(m * high[2][0])
-        y[1] =  m * input + c
-    }
-    <!-- (6) -->
-    else if(input <= high[2][0])
-    {
-        m = (high[2][1]-high[1][1])/(high[2][0]-high[1][0])
-        c = -(m * high[2][0])
-        y[1] =  m * input + c
-
-        m2 = (medium[1][1]-medium[0][1])/(medium[1][0]-medium[0][0])
-        c2 = -(m2 * medium[0][0])
-        y[2] =  m2 * input + c2
-    }
-    <!-- (7) -->
-    else if(input <= low[0][0])
-    {
-        m = (medium[1][1]-medium[2][1])/(medium[1][0]-medium[2][0])
-        c = -(m * medium[2][0])
-        y[2] =  m * input + c
-
-    }
-    <!-- (8) -->
-    else if(input <= medium[2][0]){
-        m = (medium[1][1]-medium[2][1])/(medium[1][0]-medium[2][0])
-        c = -(m * medium[2][0])
-        y[2] =  m * input + c
-
-        m2 = (low[1][1]-low[0][1])/(low[1][0]-low[0][0])
-        c2 = -(m2 * low[0][0])
-        y[3] =  m2 * input + c2
-    }
-    <!-- (9) -->
-    else if(input <= low[1][0])
-    {
-        m2 = (low[1][1]-low[0][1])/(low[1][0]-low[0][0])
-        c2 = -(m2 * low[0][0])
-        y[3] =  m2 * input + c2
-    }
-
-    <!-- (10) -->
-    else if(input <= low[2][0])
-    {
-        m = (low[1][1]-low[2][1])/(low[1][0]-low[2][0])
-        c = -(m * low[2][0])
-        y[3] =  m * input + c
-
-        m2 = (vlow[1][1]-vlow[0][1])/(vlow[1][0]-vlow[0][0])
-        c2 = -(m2 * vlow[0][0])
-        y[4] =  m2 * input + c2
-    }
-    <!-- (11) -->
-    else if(input <= vlow[1][0]){
-        m2 = (vlow[1][1]-vlow[0][1])/(vlow[1][0]-vlow[0][0])
-        c2 = -(m2 * vlow[0][0])
-        y[4] =  m2 * input + c2
-    }
-    <!-- (12) -->
-    else if(input <= vlow[2][0])
-    {
-       y[4] = 1
-    }
-    return y;
-
-
-}
-
-
-function marksO2(vhigh,high,medium,low,vlow,input){
-    var lines_Value2 = line2(vhigh,high,medium,low,vlow,input)
-    <!-- (1) -->
-    if(input <= vhigh[1][0]){
-        marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:1, to:1}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:1}, color: "#bb0000" }]
-    }
-    <!-- (2) -->
-    else if(input <= high[0][0]){
-        marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[0], to:lines_Value2[0]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[0]}, color: "#bb0000" }]
-    }
-    <!-- (3) -->
-    else if(input <= high[2][0]){
-        marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[0], to:lines_Value2[0]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[0]}, color: "#bb0000" },
-                { xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[1], to:lines_Value2[1]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[1]}, color: "#bb0000" },]
-    }
-    <!-- (4) -->
-    else if(input <= high[1][0])
-    {
-                marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[1], to:lines_Value2[1]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[1]}, color: "#bb0000" },]
-    }
-    <!-- (5) -->
-    else if(input <= medium[0][0]){
-                 marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[1], to:lines_Value2[1]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[1]}, color: "#bb0000" },]
-    }
-    <!-- (6) -->
-    else if(input <= high[2][0])
-    {
-                marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[1], to:lines_Value2[1]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[1]}, color: "#bb0000" },
-                { xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[2], to:lines_Value2[2]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[2]}, color: "#bb0000" },]
-    }
-    <!-- (7) -->
-    else if(input <= low[0][0])
-    {
-                         marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[2], to:lines_Value2[2]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[2]}, color: "#bb0000" },]
-
-    }
-    <!-- (8) -->
-    else if(input <= medium[2][0]){
-                marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[3], to:lines_Value2[3]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[3]}, color: "#bb0000" },
-                { xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[2], to:lines_Value2[2]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[2]}, color: "#bb0000" },]
-    }
-     <!-- (9) -->
-    else if(input <= low[1][0])
-    {
-                marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[3], to:lines_Value2[3]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[3]}, color: "#bb0000" },]
-    }
-    <!-- (10) -->
-    else if(input <= low[2][0])
-    {
-                        marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[3], to:lines_Value2[3]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[3]}, color: "#bb0000" },
-                { xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[4], to:lines_Value2[4]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[4]}, color: "#bb0000" },]
-    }
-    <!-- (11) -->
-    else if(input <= vlow[1][0]){
-                        marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[4], to:lines_Value2[4]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[4]}, color: "#bb0000" },]
-    }
-    <!-- (12) -->
-    else if(input <= vlow[2][0])
-    {
-                       marksOutput2 = [{ xaxis: { from: 0, to: input }, yaxis: {from:lines_Value2[4], to:lines_Value2[4]}, color: "#bb0000" },
-                { xaxis: { from: input, to: input }, yaxis: {from:0, to:lines_Value2[4]}, color: "#bb0000" },]
-    }
-    return marksOutput2;
-
-}
-<!-- End for Outputs -->
 //document.write(m);
 var chart_cognitive = function() {
 

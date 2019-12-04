@@ -141,30 +141,40 @@
 					},
 					cognitive: {
 						 required: true,
+						 min: 0,
+						 max: 36,
 						 normalizer: function(value) {
 								return $.trim(value);
 						 }
 					},
 					social: {
 						required: true,
+						min: 0,
+						max: 52,
 						normalizer: function(value) {
 							 return $.trim(value);
 						}
 					},
 					emotional: {
 						required: true,
+						min: 0,
+						max: 64,
 						normalizer: function(value) {
 							 return $.trim(value);
 						}
 					},
 					spiritual: {
 						required: true,
+						min: 0,
+						max: 44,
 						normalizer: function(value) {
 							 return $.trim(value);
 						}
 					},
 					physical: {
 						required: true,
+						min: 0,
+						max: 44,
 						normalizer: function(value) {
 							 return $.trim(value);
 						}
@@ -206,7 +216,7 @@
 						}).then((result) => {
 							//if user click ok, it will redirect the user
 							if (result.value) {
-								window.location.href=("{% url "client_form" %}");
+								window.location.href=("{% url "list_report" %}");
 							}
 						});
 						$(form).find(".btn-submit").removeClass("m-loader m-loader--success m-loader--right").prop("disabled", false);

@@ -5,6 +5,7 @@ from fuzzy_project.helpers import *
 from collections import namedtuple
 from django.db import connection
 from urllib.parse import parse_qs
+from fuzzy_project.mamdani_calc import *
 
 now = timezone.now()
 cursor = connection.cursor()
@@ -19,7 +20,10 @@ def empty(request):
 
 def home(request):
     page = { "title": "home", "sub": "" }
-    return render(request, 'fuzzy_web/home.html', { "currentTime": now, "page": page })
+    cursor.execute("SELECT COUNT(id) as total, SUM(IF(gender = 'Male', 1, 0)) malecnt, SUM(IF(gender = 'Female', 1, 0)) femalecnt FROM client")
+    datax = dictfetchone(cursor)
+    datax['percentage'] = (datax['malecnt'] / datax['total']) * 100;
+    return render(request, 'fuzzy_web/home.html', { "currentTime": now, "page": page, "data": datax })
 
 def list_report(request):
     page = { "title": "resources", "sub": "listreport" }
@@ -105,7 +109,9 @@ def view_report(request):
         delid = parse_qs(decrypt(request.GET['q']))
         cursor.execute("SELECT * FROM client WHERE id = %s", delid["id"])
         datax = dictfetchone(cursor)
-        return render(request, 'fuzzy_web/view_report.html', { "currentTime": now, "page": page, "data": datax })
+        fuzzy_calc(datax)
+        link = "cog/"+str(datax["id"])+".png"
+        return render(request, 'fuzzy_web/view_report.html', { "currentTime": now, "page": page, "data": datax, "link": link })
     else:
         errorMsg = []
         errorMsg.append("Request Error")
