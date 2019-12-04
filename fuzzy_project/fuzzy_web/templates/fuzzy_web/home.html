@@ -90,7 +90,7 @@
 																Very High
 															</span>
 															<span class="m-widget16__price m--align-right m--font-brand">
-																100
+																{{data.vhcnt}}
 															</span>
 														</div>
 
@@ -102,7 +102,7 @@
 																High
 															</span>
 															<span class="m-widget16__price m--align-right m--font-accent">
-																100
+																{{data.hcnt}}
 															</span>
 														</div>
 
@@ -114,7 +114,7 @@
 																Medium
 															</span>
 															<span class="m-widget16__price m--align-right m--font-danger">
-																100
+																{{data.mcnt}}
 															</span>
 														</div>
 														<!--end::widget item-->
@@ -124,7 +124,7 @@
 																Low
 															</span>
 															<span class="m-widget16__price m--align-right m--font-info">
-																100
+																{{data.lcnt}}
 															</span>
 														</div>
 														<!--end::widget item-->
@@ -134,7 +134,7 @@
 																Very Low
 															</span>
 															<span class="m-widget16__price m--align-right m--font-success">
-																100
+																{{data.vlcnt}}
 															</span>
 														</div>
 														<!--end::widget item-->
@@ -144,29 +144,29 @@
 												<div class="col-md-7">
 													<div class="m-widget16__stats">
 														<div class="m-widget16__visual">
-															<div id="m_chart_support_tickets" style="height: 220px">
+															<div id="approach-cnt" style="height: 220px">
 															</div>
 														</div>
 														<div class="m-widget16__legends">
 															<div class="m-widget16__legend">
 																<span class="m-widget16__legend-bullet m--bg-brand"></span>
-																<span class="m-widget16__legend-text">100 Very High</span>
+																<span class="m-widget16__legend-text">Very High</span>
 															</div>
 															<div class="m-widget16__legend">
 																<span class="m-widget16__legend-bullet m--bg-accent"></span>
-																<span class="m-widget16__legend-text">100 High</span>
+																<span class="m-widget16__legend-text">High</span>
 															</div>
 															<div class="m-widget16__legend">
 																<span class="m-widget16__legend-bullet m--bg-danger"></span>
-																<span class="m-widget16__legend-text">100 Medium</span>
+																<span class="m-widget16__legend-text">Medium</span>
 															</div>
                                                             <div class="m-widget16__legend">
 																<span class="m-widget16__legend-bullet m--bg-info"></span>
-																<span class="m-widget16__legend-text">100 Low</span>
+																<span class="m-widget16__legend-text">Low</span>
 															</div>
                                                             <div class="m-widget16__legend">
 																<span class="m-widget16__legend-bullet m--bg-success"></span>
-																<span class="m-widget16__legend-text">100 Very Low</span>
+																<span class="m-widget16__legend-text">Very Low</span>
 															</div>
 														</div>
 													</div>
@@ -192,4 +192,29 @@
 {% endblock %}
 
 {% block docready %}
+<script>
+$(document).ready(function(){
+	Morris.Donut({
+			element: "approach-cnt",
+			data: [{
+					label: "Very High",
+					value: {{data.vhcnt}}
+			}, {
+					label: "High",
+					value: {{data.hcnt}}
+			}, {
+					label: "Medium",
+					value: {{data.mcnt}}
+			}, {
+					label: "Low",
+					value: {{data.lcnt}}
+			}, {
+					label: "Very Low",
+					value: {{data.vlcnt}}
+			}],
+			labelColor: "#a7a7c2",
+			colors: [mApp.getColor("brand"), mApp.getColor("accent"), mApp.getColor("danger"), mApp.getColor("info"), mApp.getColor("success")]
+	})
+});
+</script>
 {% endblock %}

@@ -10,55 +10,55 @@ def fuzzy_calc(data):
 
     if gender == "Male":
         #Initialize Range
-    	cognitive = np.arange(0,37,1)
-    	cog_level = {}
-    	cog_level["low"] = fuzzy.trapmf(cognitive,[0,0,12,24])
-    	cog_level["med"] = fuzzy.trimf(cognitive,[20,26,33])
-    	cog_level["high"] = fuzzy.trapmf(cognitive,[32,34,36,36])
-    	# c_Low = fuzzy.trapmf(cognitive,[0,0,12,24])
-    	# c_Med = fuzzy.trimf(cognitive,[20,26,33])
-    	# c_High = fuzzy.trapmf(cognitive,[32,34,36,36])
+        cognitive = np.arange(0,37,1)
+        cog_level = {}
+        cog_level["low"] = fuzzy.trapmf(cognitive,[0,0,12,24])
+        cog_level["med"] = fuzzy.trimf(cognitive,[20,26,33])
+        cog_level["high"] = fuzzy.trapmf(cognitive,[32,34,36,36])
+        # c_Low = fuzzy.trapmf(cognitive,[0,0,12,24])
+        # c_Med = fuzzy.trimf(cognitive,[20,26,33])
+        # c_High = fuzzy.trapmf(cognitive,[32,34,36,36])
 
-    	social = np.arange(0,53,1)
-    	soc_level = {}
-    	soc_level["low"] = fuzzy.trapmf(social,[0,0,16,32])
-    	soc_level["med"] = fuzzy.trimf(social,[29,36,44])
-    	soc_level["high"] = fuzzy.trapmf(social,[41,46,52,52])
-    	# s_Low = fuzzy.trapmf(social,[0,0,16,32])
-    	# s_Med = fuzzy.trimf(social,[29,36,44])
-    	# s_High = fuzzy.trapmf(social,[41,46,52,52])
+        social = np.arange(0,53,1)
+        soc_level = {}
+        soc_level["low"] = fuzzy.trapmf(social,[0,0,16,32])
+        soc_level["med"] = fuzzy.trimf(social,[29,36,44])
+        soc_level["high"] = fuzzy.trapmf(social,[41,46,52,52])
+        # s_Low = fuzzy.trapmf(social,[0,0,16,32])
+        # s_Med = fuzzy.trimf(social,[29,36,44])
+        # s_High = fuzzy.trapmf(social,[41,46,52,52])
 
-    	emotional = np.arange(0,65,1)
-    	emo_level = {}
-    	emo_level["low"] = fuzzy.trapmf(emotional,[0,0,18,37])
-    	emo_level["med"] = fuzzy.trimf(emotional,[30,39,44])
-    	emo_level["high"] = fuzzy.trapmf(emotional,[40,52,64,64])
-    	# e_Low = fuzzy.trapmf(emotional,[0,0,18,37])
-    	# e_Med = fuzzy.trimf(emotional,[34,39,44])
-    	# e_High = fuzzy.trapmf(emotional,[41,46,52,52])
+        emotional = np.arange(0,65,1)
+        emo_level = {}
+        emo_level["low"] = fuzzy.trapmf(emotional,[0,0,18,37])
+        emo_level["med"] = fuzzy.trimf(emotional,[30,39,44])
+        emo_level["high"] = fuzzy.trapmf(emotional,[40,52,64,64])
+        # e_Low = fuzzy.trapmf(emotional,[0,0,18,37])
+        # e_Med = fuzzy.trimf(emotional,[34,39,44])
+        # e_High = fuzzy.trapmf(emotional,[41,46,52,52])
 
-    	spiritual = np.arange(0,45,1)
-    	spi_level = {}
-    	spi_level["low"] = fuzzy.trapmf(spiritual,[0,0,13,26])
-    	spi_level["med"] = fuzzy.trimf(spiritual,[24,31,39])
-    	spi_level["high"] = fuzzy.trapmf(spiritual,[37,40,44,44])
-    	# sp_Low = fuzzy.trapmf(spiritual,[0,0,13,26])
-    	# sp_Med = fuzzy.trimf(spiritual,[24,31,39])
-    	# sp_High = fuzzy.trapmf(spiritual,[37,40,44,44])
+        spiritual = np.arange(0,45,1)
+        spi_level = {}
+        spi_level["low"] = fuzzy.trapmf(spiritual,[0,0,13,26])
+        spi_level["med"] = fuzzy.trimf(spiritual,[24,31,39])
+        spi_level["high"] = fuzzy.trapmf(spiritual,[37,40,44,44])
+        # sp_Low = fuzzy.trapmf(spiritual,[0,0,13,26])
+        # sp_Med = fuzzy.trimf(spiritual,[24,31,39])
+        # sp_High = fuzzy.trapmf(spiritual,[37,40,44,44])
 
-    	physical = np.arange(0,45,1)
-    	phy_level = {}
-    	phy_level["low"] = fuzzy.trapmf(physical,[0,0,12,25])
-    	phy_level["med"] = fuzzy.trimf(physical,[22,29,37])
-    	phy_level["high"] = fuzzy.trapmf(physical,[35,40,44,44])
+        physical = np.arange(0,45,1)
+        phy_level = {}
+        phy_level["low"] = fuzzy.trapmf(physical,[0,0,12,25])
+        phy_level["med"] = fuzzy.trimf(physical,[22,29,37])
+        phy_level["high"] = fuzzy.trapmf(physical,[35,40,44,44])
 
-    	output = np.arange(0,251,1)
-    	out_level = {}
-    	out_level["vhigh"] = fuzzy.trapmf(output,[0,0,85,105])
-    	out_level["high"] = fuzzy.trimf(output,[90,120,155])
-    	out_level["med"] = fuzzy.trimf(output,[140,155,175])
-    	out_level["low"] = fuzzy.trimf(output,[160,180,205])
-    	out_level["vlow"] = fuzzy.trapmf(output,[180,220,227,227])
+        output = np.arange(0,251,1)
+        out_level = {}
+        out_level["vhigh"] = fuzzy.trapmf(output,[0,0,85,105])
+        out_level["high"] = fuzzy.trimf(output,[90,120,155])
+        out_level["med"] = fuzzy.trimf(output,[140,155,175])
+        out_level["low"] = fuzzy.trimf(output,[160,180,205])
+        out_level["vlow"] = fuzzy.trapmf(output,[180,220,227,227])
 
         cat_vhigh = [[0,0],[85,1],[105,0]]
         cat_high = [[90,0],[120,1],[155,0]]
@@ -527,102 +527,93 @@ def fuzzy_calc(data):
     # print(clean_aggregated)
 
     cog = clean_aggregated
-    y = [0, 0, 0, 0, 0]
-
+    y = [0,0,0,0,0]
     #COG CATEGORY
     # <!-- (1) -->
-    if (input <= vhigh[1][0]):
+    if cog <= cat_vhigh[1][0]:
         y[0] = 1
-    # < !-- (2) -->
-    elif (input <= high[0][0]):
-        m = (vhigh[1][1]-vhigh[2][1]) / (vhigh[1][0]-vhigh[2][0])
-        c = -(m * vhigh[2][0])
-        y[0] =  m * input + c
-    # < !-- (3) -->
-    elif (input <= vhigh[2][0]) :
-        m = (vhigh[1][1] - vhigh[2][1]) / (vhigh[1][0] - vhigh[2][0])
-        c = -(m * vhigh[2][0])
-        y[0] = m * input + c
+        # < !-- (2) -->
+    elif cog <= cat_high[0][0]:
+        m = (cat_vhigh[1][1]-cat_vhigh[2][1]) / (cat_vhigh[1][0]-cat_vhigh[2][0])
+        c = -(m * cat_vhigh[2][0])
+        y[0] =  m * cog + c
+        # < !-- (3) -->
+    elif cog <= cat_vhigh[2][0]:
+        m = (cat_vhigh[1][1] - cat_vhigh[2][1]) / (cat_vhigh[1][0] - cat_vhigh[2][0])
+        c = -(m * cat_vhigh[2][0])
+        y[0] = m * cog + c
 
-        m2 = (high[1][1] - high[0][1]) / (high[1][0] - high[0][0])
-        c2 = -(m2 * high[0][0])
-        y[1] = m2 * input + c2
+        m2 = (cat_high[1][1] - cat_high[0][1]) / (cat_high[1][0] - cat_high[0][0])
+        c2 = -(m2 * cat_high[0][0])
+        y[1] = m2 * cog + c2
         # < !-- (4) -->
-    elif (input <= high[1][0]):
-        m = (high[1][1] - high[0][1]) / (high[1][0] - high[0][0])
-        c = -(m * high[0][0])
-        y[1] = m * input + c
+    elif cog <= cat_high[1][0]:
+        m = (cat_high[1][1] - cat_high[0][1]) / (cat_high[1][0] - cat_high[0][0])
+        c = -(m * cat_high[0][0])
+        y[1] = m * cog + c
         # < !-- (5) -->
-    elif (input <= medium[0][0]):
-        m = (high[1][1]-high[2][1]) / (high[1][0]-high[2][0])
-        c = -(m * high[2][0])
-        y[1] =  m * input + c
-    # < !-- (6) -->
-    elif (input <= high[2][0]):
-        m = (high[2][1] - high[1][1]) / (high[2][0] - high[1][0])
-        high[2][0])
-        y[1] = m * input + c
+    elif cog <= cat_med[0][0]:
+        m = (cat_high[1][1]-cat_high[2][1]) / (cat_high[1][0]-cat_high[2][0])
+        c = -(m * cat_high[2][0])
+        y[1] =  m * cog + c
+        # < !-- (6) -->
+    elif cog <= cat_high[2][0]:
+        m = (cat_high[2][1] - cat_high[1][1]) / (cat_high[2][0] - cat_high[1][0])
+        c = -(m * cat_high[2][0])
+        y[1] = m * cog + c
 
-        m2 = (medium[1][1] - medium[0][1]) / (medium[1][0] - medium[0][0])
-        c2 = -(m2 * medium[0][0])
-        y[2] = m2 * input + c2
+        m2 = (cat_med[1][1] - cat_med[0][1]) / (cat_med[1][0] - cat_med[0][0])
+        c2 = -(m2 * cat_med[0][0])
+        y[2] = m2 * cog + c2
         # < !-- (7) -->
-    else bug (input <= medium[1][0]):
+    elif cog <= cat_med[1][0]:
+        m2 = (cat_med[1][1] - cat_med[0][1]) / (cat_med[1][0] - cat_med[0][0])
+        c2 = -(m2 * cat_med[0][0])
+        y[2] = m2 * cog + c2
+        # < !-- (8) -->
+    elif cog <= cat_low[0][0]:
+        m2 = (cat_med[1][1]-cat_med[2][1]) / (cat_med[1][0] - cat_med[2][0])
+        c2 = -(m2 * cat_med[2][0])
+        y[2] =  m2 * cog + c2
+        # < !-- (9) --->
+    elif cog <= cat_med[2][0]:
+        m = (cat_med[1][1]-cat_med[2][1]) / (cat_med[1][0]-cat_med[2][0])
+        c = -(m * cat_med[2][0])
+        y[2] =  m * cog + c
 
-                m2 = (medium[1][1] - medium[0][1]) / (medium[1][0] - medium[0][0])
-                c2 = -(m2 * medium[0][0])
-                y[2] = m2 * input + c2
-            
-                    < !-- (8) -->
-                    else if (input <= low[0][0]
-                            {
-                            m2 = (medium[1][1]-medium[2][1]) / (medium[1][0] - medium[2][0])
-                    c2 = -(m2 * medium[2][0])
-                    y[2] =  m2 * input + c2
-                    }
-                    < !-- (9) --->
-                    else if (input <= medium[2][0]){
-                    m = (medium[1][1]-medium[2][1]) / (medium[1][0]-medium[2][0])
-                    c = -(m * medium[2][0])
-                    y[2] =  m * input + c
+        m2 = (cat_low[1][1]-cat_low[0][1]) / (cat_low[1][0]-cat_low[0][0])
+        c2 = -(m2 * cat_low[0][0])
+        y[3] =  m2 * cog + c
+        # < !-- (10) -->
+    elif cog <= cat_vlow[0][0]:
+        m2 = (cat_low[1][1]-cat_low[0][1]) / (cat_low[1][0]-cat_low[0][0])
+        c2 = -(m2 * cat_low[0][0])
+        y[3] =  m2 * cog + c2
+        # < !-- (11) -->
+    elif cog <= cat_low[2][0]:
+        m = (cat_low[1][1]-cat_low[2][1]) / (cat_low[1][0]-cat_low[2][0])
+        c = -(m * cat_med[2][0])
+        y[2] =  m * cog + c
 
-                    m2 = (low[1][1]-low[0][1]) / (low[1][0]-low[0][0])
-                    c2 = -(m2 * low[0][0])
-                    y[3] =  m2 * input + c2
-                    }
-                    < !-- (9) -->
-                    else if (input <= low[1][0])
-                    {
-                    m2 = (low[1][1]-low[0][1]) / (low[1][0]-low[0][0])
-                    c2 = -(m2 * low[0][0])
-                    y[3] =  m2 * input + c2
-                    }
-                    < !-- (10) -->
-                    else if (input <= vlow[0][0])
-                    {
-                    m2 = (low[1][1]-low[0][1]) / (low[1][0]-low[0][0])
-                    c2 = -(m2 * low[0][0])
-                    y[3] =  m2 * input + c2
-                    }
-                    < !-- (11) -->
-                    else if (input <= low[2][0]){
-                    m = (low[1][1]-low[2][1]) / (low[1][0]-low[2][0])
-                    c = -(m * medium[2][0])
-                    y[2] =  m * input + c
+        m2 = (cat_vlow[1][1]-cat_vlow[0][1]) / (cat_vlow[1][0]-cat_vlow[0][0])
+        c2 = -(m2 * cat_vlow[0][0])
+        y[4] =  m2 * cog + c2
+        # < !-- (12) -->
+    elif cog <= cat_vlow[1][0]:
+        m2 = (cat_vlow[1][1]-cat_vlow[0][1]) / (cat_vlow[1][0]-cat_vlow[0][0])
+        c2 = -(m2 * cat_vlow[0][0])
+        y[4] =  m2 * cog + c2
+    else:
+        y[4] = 1
 
-                    m2 = (vlow[1][1]-vlow[0][1]) / (vlow[1][0]-vlow[0][0])
-                    c2 = -(m2 * vlow[0][0])
-                    y[4] =  m2 * input + c2
-                    }
-                    < !-- (12) -->
-                    else if (input <= vlow[1][0])
-                    {
-                    m2 = (vlow[1][1]-vlow[0][1]) / (vlow[1][0]-vlow[0][0])
-                    c2 = -(m2 * vlow[0][0])
-                    y[4] =  m2 * input + c2
-                    }
-                    else {
-                    y[4] = 1
-                    }
-
-
+    maxIndex = np.argmax(y)
+    if maxIndex == 0:
+        return { "coping": "VH", "cog": cog, "y": y}
+    elif maxIndex == 1:
+        return { "coping": "H", "cog": cog, "y": y}
+    elif maxIndex == 2:
+        return { "coping": "M", "cog": cog, "y": y}
+    elif maxIndex == 3:
+        return { "coping": "L", "cog": cog, "y": y}
+    else:
+        return { "coping": "VL", "cog": cog, "y": y}

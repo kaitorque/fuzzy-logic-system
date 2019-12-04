@@ -20,7 +20,9 @@ def empty(request):
 
 def home(request):
     page = { "title": "home", "sub": "" }
-    cursor.execute("SELECT COUNT(id) as total, SUM(IF(gender = 'Male', 1, 0)) malecnt, SUM(IF(gender = 'Female', 1, 0)) femalecnt FROM client")
+    cursor.execute("SELECT COUNT(id) total, SUM(IF(gender = 'Male', 1, 0)) malecnt, SUM(IF(gender = 'Female', 1, 0)) femalecnt, "
+    "SUM(IF(coping_level = 'VH', 1, 0)) vhcnt, SUM(IF(coping_level = 'H', 1, 0)) hcnt, SUM(IF(coping_level = 'M', 1, 0)) mcnt, SUM(IF(coping_level = 'L', 1, 0)) lcnt, SUM(IF(coping_level = 'VL', 1, 0)) vlcnt "
+    "FROM client")
     datax = dictfetchone(cursor)
     datax['percentage'] = (datax['malecnt'] / datax['total']) * 100;
     return render(request, 'fuzzy_web/home.html', { "currentTime": now, "page": page, "data": datax })
@@ -109,9 +111,10 @@ def view_report(request):
         delid = parse_qs(decrypt(request.GET['q']))
         cursor.execute("SELECT * FROM client WHERE id = %s", delid["id"])
         datax = dictfetchone(cursor)
-        fuzzy_calc(datax)
+        fuzzy = fuzzy_calc(datax)
+        cursor.execute("UPDATE client SET coping_level = %s WHERE id = %s", [fuzzy['coping'], datax["id"]])
         link = "cog/"+str(datax["id"])+".png"
-        return render(request, 'fuzzy_web/view_report.html', { "currentTime": now, "page": page, "data": datax, "link": link })
+        return render(request, 'fuzzy_web/view_report.html', { "currentTime": now, "page": page, "data": datax, "link": link, "fuzzy": fuzzy })
     else:
         errorMsg = []
         errorMsg.append("Request Error")
