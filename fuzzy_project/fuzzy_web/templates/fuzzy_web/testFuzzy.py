@@ -102,5 +102,6 @@ cog.input['spiritual']=30
 cog.input['physical']=20
 cog.compute() #calculate cgpa
 print(cog.output['output']) #print calculated cgpa
+print(cog.output)
 output.view(sim=cog) #visualize output
 plt.show()
