@@ -461,6 +461,7 @@ function lines(low,medium,high,input){
     return y;
 }
 
+
 function marksO(low,medium,high,input){
     var lines_Value = lines(low,medium,high,input)
 
@@ -506,7 +507,165 @@ function marksO(low,medium,high,input){
     return marksOutput;
 }
 <!-- End of Inputs have 5 -->
+<!-- Start Approach -->
+function getCategoryOutput(vhigh,high,medium,low,vlow,input){
+    y=[0,0,0,0,0]
+    <!-- (1) -->
+    if(input <= vhigh[1][0]){
+        y[0] = 1
+    }
+     <!-- (2) -->
+    else if(input <= high[0][0]){
+        m = (vhigh[1][1]-vhigh[2][1])/(vhigh[1][0]-vhigh[2][0])
+        c = -(m * vhigh[2][0])
+        y[0] =  m * input + c
+    }
+    <!-- (3) -->
+    else if(input <= vhigh[2][0])
+    {
+        m = (vhigh[1][1]-vhigh[2][1])/(vhigh[1][0]-vhigh[2][0])
+        c = -(m * vhigh[2][0])
+        y[0] =  m * input + c
 
+        m2 = (high[1][1]-high[0][1])/(high[1][0]-high[0][0])
+        c2 = -(m2 * high[0][0])
+        y[1] =  m2 * input + c2
+    }
+    <!-- (4) -->
+    else if(input <= high[1][0])
+    {
+        m = (high[1][1]-high[0][1])/(high[1][0]-high[0][0])
+        c = -(m * high[0][0])
+        y[1] =  m * input + c
+    }
+    <!-- (5) -->
+    else if(input <= medium[0][0]){
+        m = (high[1][1]-high[2][1])/(high[1][0]-high[2][0])
+        c = -(m * high[2][0])
+        y[1] =  m * input + c
+    }
+    <!-- (6) -->
+    else if(input <= high[2][0])
+    {
+        m = (high[2][1]-high[1][1])/(high[2][0]-high[1][0])
+        c = -(m * high[2][0])
+        y[1] =  m * input + c
+
+        m2 = (medium[1][1]-medium[0][1])/(medium[1][0]-medium[0][0])
+        c2 = -(m2 * medium[0][0])
+        y[2] =  m2 * input + c2
+    }
+    <!-- (7) -->
+    else if(input <= medium[1][0])
+    {
+        m2 = (medium[1][1]-medium[0][1])/(medium[1][0]-medium[0][0])
+        c2 = -(m2 * medium[0][0])
+        y[2] =  m2 * input + c2
+    }
+    <!-- (8) -->
+    else if(input <= low[0][0]
+    {
+        m2 = (medium[1][1]-medium[2][1])/(medium[1][0]-medium[2][0])
+        c2 = -(m2 * medium[2][0])
+        y[2] =  m2 * input + c2
+    }
+    <!-- (9) --->
+    else if(input <= medium[2][0]){
+        m = (medium[1][1]-medium[2][1])/(medium[1][0]-medium[2][0])
+        c = -(m * medium[2][0])
+        y[2] =  m * input + c
+
+        m2 = (low[1][1]-low[0][1])/(low[1][0]-low[0][0])
+        c2 = -(m2 * low[0][0])
+        y[3] =  m2 * input + c2
+    }
+    <!-- (9) -->
+    else if(input <= low[1][0])
+    {
+        m2 = (low[1][1]-low[0][1])/(low[1][0]-low[0][0])
+        c2 = -(m2 * low[0][0])
+        y[3] =  m2 * input + c2
+    }
+    <!-- (10) -->
+    else if(input <= vlow[0][0])
+    {
+        m2 = (low[1][1]-low[0][1])/(low[1][0]-low[0][0])
+        c2 = -(m2 * low[0][0])
+        y[3] =  m2 * input + c2
+    }
+    <!-- (11) -->
+    else if(input <= low[2][0]){
+        m = (low[1][1]-low[2][1])/(low[1][0]-low[2][0])
+        c = -(m * medium[2][0])
+        y[2] =  m * input + c
+
+        m2 = (vlow[1][1]-vlow[0][1])/(vlow[1][0]-vlow[0][0])
+        c2 = -(m2 * vlow[0][0])
+        y[4] =  m2 * input + c2
+    }
+    <!-- (12) -->
+    else if(input <= vlow[1][0])
+    {
+        m2 = (vlow[1][1]-vlow[0][1])/(vlow[1][0]-vlow[0][0])
+        c2 = -(m2 * vlow[0][0])
+        y[4] =  m2 * input + c2
+    }
+    else{
+        y[4] = 1
+    }
+    return y;
+}
+
+var approach_value = function() {
+
+    if("{{data.gender}}" == "Male")
+    {
+      var vh = [[0,1],[85,1],[105,0]]
+      var h = [[90,0],[120,1],[155,0]]
+      var m = [[140,0],[155,1],[175,1]]
+      var l = [[160,0],[180,1],[205,1]]
+      var vl = [[180,0],[220,1],[227,1]]
+    }
+    else {
+      var vh = [[0,1],[85,1],[110,0]]
+      var h = [[90,0],[120,1],[155,0]]
+      var m = [[140,0],[155,1],[175,1]]
+      var l = [[160,0],[180,1],[200,1]]
+      var vl = [[180,0],[220,1],[228,1]]
+    }
+    var cog = 50.2;
+
+    result = getCategoryOutput(vh,h,m,l,vl,cog)
+
+    max = -9999
+    category = ""
+    if(result[0] > max){
+        max = result[0]
+        category = "VH"
+    }
+    if(result[1] > max){
+        max = result[1]
+        category = "H"
+    }
+    if(result[2] > max){
+        max = result[2]
+        category = "M"
+    }
+    if(result[3] > max){
+        max = result[3]
+        category = "L"
+    }
+    if(result[4] > max){
+        max = result[0]
+        category = "LW"
+    }
+
+    return max , category;
+
+
+}
+
+<!-- End Approach -- >
 //document.write(m);
 var chart_cognitive = function() {
 
