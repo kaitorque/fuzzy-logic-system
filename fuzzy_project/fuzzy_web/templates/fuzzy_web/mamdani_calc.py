@@ -137,7 +137,6 @@ phy["high"] = fuzzy.interp_membership(physical, phy_level["high"], input_phy)
 rules_vhigh = {}
 rules_vhigh["1"] = np.fmin(cog["low"], np.fmin(soc["low"], np.fmin(emo["low"],np.fmin(spi["low"],phy["low"]))))
 
-
 rules_high = {}
 rules_high["1"] = np.fmin(cog["med"], np.fmin(soc["low"], np.fmin(emo["low"],np.fmin(spi["low"],phy["low"]))))
 
@@ -159,11 +158,22 @@ rules_vlow["1"] = np.fmin(cog["high"], np.fmin(soc["high"], np.fmin(emo["high"],
 #<---- Create Output ----->
 out = {}
 #Compare with
-out["vhigh"] = np.fmin(rules_vhigh["1"],out_level["vhigh"])
-out["high"] = np.fmin(rules_high["1"],out_level["high"])
-out["med"] = np.fmin(rules_med["1"],out_level["med"])
-out["low"] = np.fmin(rules_low["1"],out_level["low"])
-out["vlow"] = np.fmin(rules_vlow["1"],out_level["vlow"])
+maxVhigh = max(rules_vhigh.keys(),key=(lambda k : rules_vhigh[k]))
+out["vhigh"] = np.fmin(rules_vhigh[maxVhigh],out_level["vhigh"])
+
+maxHigh = max(rules_high.keys(),key=(lambda k : rules_high[k]))
+out["high"] = np.fmin(rules_high[maxHigh],out_level["high"])
+
+maxMed = max(rules_med.keys(),key=(lambda k : rules_med[k]))
+out["med"] = np.fmin(rules_med[maxMed],out_level["med"])
+
+maxLow = max(rules_low.keys(),key=(lambda k : rules_low[k]))
+out["low"] = np.fmin(rules_low[maxLow],out_level["low"])
+
+maxVlow = max(rules_vlow.keys(),key=(lambda k : rules_vlow[k]))
+out["vlow"] = np.fmin(rules_vlow[maxVlow],out_level["vlow"])
+# print(rules_vhigh["1"])
+# print(out_level["vhigh"])
 # print(f"VHigh = {out['vhigh']} \n")
 # #       f"High = {out['high']} \n"
 # #       f"Med = {out['med']} \n"
@@ -175,42 +185,31 @@ aggregated = np.fmax(out["vhigh"],np.fmax(out["high"],np.fmax(out["med"],np.fmax
 # aggregated = out["vhigh"]
 
 clean_aggregated = fuzzy.defuzz(output,aggregated, 'centroid')
-print(clean_aggregated)
+# print(clean_aggregated)
 clean_activation = fuzzy.interp_membership(output,aggregated,clean_aggregated)
 
-fig, (cOut, cAgr) = plt.subplots(nrows=2, figsize=(8, 9))
+fig, cAgr = plt.subplots(figsize=(8, 9))
 
-cOut.fill_between(output, out0, out["vhigh"], facecolor='b', alpha=0.7)
-cOut.plot(output, out_level["vhigh"], 'r', linewidth=2, linestyle='--', )
-cOut.fill_between(output, out0, out["high"], facecolor='g', alpha=0.7)
-cOut.plot(output, out_level["high"], 'y', linewidth=2, linestyle='--')
-cOut.fill_between(output, out0, out["med"], facecolor='r', alpha=0.7)
-cOut.plot(output, out_level["med"], 'g', linewidth=2, linestyle='--')
-cOut.fill_between(output, out0, out["low"], facecolor='r', alpha=0.7)
-cOut.plot(output, out_level["low"], 'y', linewidth=2, linestyle='--')
-cOut.fill_between(output, out0, out["vlow"], facecolor='r', alpha=0.7)
-cOut.plot(output, out_level["vlow"], 'g', linewidth=2, linestyle='--')
-cOut.set_title('Output')
-
-cAgr.plot(output, out_level["vhigh"], 'r', linewidth=2, linestyle='--', )
-cAgr.plot(output, out_level["high"], 'y', linewidth=2, linestyle='--', )
-cAgr.plot(output, out_level["med"], 'g', linewidth=2, linestyle='--', )
-cAgr.plot(output, out_level["low"], 'y', linewidth=2, linestyle='--', )
-cAgr.plot(output, out_level["vlow"], 'g', linewidth=2, linestyle='--', )
+cAgr.plot(output, out_level["vhigh"], 'r', linewidth=2, linestyle='--', label='Very High')
+cAgr.plot(output, out_level["high"], 'y', linewidth=2, linestyle='--', label='High')
+cAgr.plot(output, out_level["med"], 'g', linewidth=2, linestyle='--', label='Medium')
+cAgr.plot(output, out_level["low"], 'k', linewidth=2, linestyle='--', label='Low')
+cAgr.plot(output, out_level["vlow"], 'b', linewidth=2, linestyle='--', label='Very Low')
 cAgr.fill_between(output, out0, aggregated, facecolor='Orange', alpha=0.7)
 cAgr.plot([clean_aggregated, clean_aggregated], [0, clean_activation], 'k', linewidth=1.5, alpha=0.9)
 cAgr.set_title('Mamdani Output')
 
+cAgr.legend()
 
 # Turn off top/right axes
-for ax in (cOut,cAgr):
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.get_xaxis().tick_bottom()
-    ax.get_yaxis().tick_left()
+# for ax in (cAgr):
+#     ax.spines['top'].set_visible(False)
+#     ax.spines['right'].set_visible(False)
+#     ax.get_xaxis().tick_bottom()
+#     ax.get_yaxis().tick_left()
 
-plt.tight_layout()
-plt.savefig("ex_1")
+
+# plt.savefig("ex_1")
 plt.show()
 # print(aggregated)
 # print(clean_activation)
