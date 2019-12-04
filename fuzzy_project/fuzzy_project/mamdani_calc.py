@@ -75,11 +75,11 @@ else:
     # s_Med = fuzzy.trimf(social,[29,36,44])
     # s_High = fuzzy.trapmf(social,[41,46,52,52])
 
-    emotional = np.arange(0, 53, 1)
+    emotional = np.arange(0, 65, 1)
     emo_level = {}
     emo_level["low"] = fuzzy.trapmf(emotional, [0, 0, 18, 37])
     emo_level["med"] = fuzzy.trimf(emotional, [34, 39, 44])
-    emo_level["high"] = fuzzy.trapmf(emotional, [41, 46, 52, 52])
+    emo_level["high"] = fuzzy.trapmf(emotional, [41, 46, 64, 64])
     # e_Low = fuzzy.trapmf(emotional,[0,0,18,37])
     # e_Med = fuzzy.trimf(emotional,[34,39,44])
     # e_High = fuzzy.trapmf(emotional,[41,46,52,52])
