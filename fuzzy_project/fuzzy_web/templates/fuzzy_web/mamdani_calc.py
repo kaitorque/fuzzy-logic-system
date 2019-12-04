@@ -210,6 +210,7 @@ for ax in (cOut,cAgr):
     ax.get_yaxis().tick_left()
 
 plt.tight_layout()
+plt.savefig("ex_1")
 plt.show()
 # print(aggregated)
 # print(clean_activation)
