@@ -12,6 +12,7 @@ Project is create with:
 
 * Python 3.0+
 * Django
+* Mysql
 
 ## Setup
 ```
